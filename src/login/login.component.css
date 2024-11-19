@@ -1,0 +1,84 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;  /* Vertically center */
+  padding: 0 20px;  /* Add padding on the left and right */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;  /* Limit the width of the form */
+  padding: 20px;  /* Padding around the form */
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.logo {
+  max-width: 300px;
+  width: 100%;
+  margin-bottom: 20px;
+  height: auto;
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Checkbox container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start */
+  width: 100%;
+  margin-bottom: 15px; /* Add space below the checkbox */
+}
+
+.checkbox-container label {
+  margin-left: 8px; /* Space between checkbox and label */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+button {
+  width: 48%;  /* Half-width buttons */
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#errorMessage {
+  color: red;
+  margin-top: 15px;
+}
