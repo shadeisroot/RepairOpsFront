@@ -1,0 +1,50 @@
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centrerer containeren */
+  margin: 20px;
+  width: 100%;  /* Gør containeren bredere */
+}
+
+.status-row {
+  display: flex;
+  flex-direction: column; /* Gør statusen vertikal */
+  align-items: center;
+  width: 100%;
+}
+
+.status-bar {
+  width: 80%;  /* Større bar */
+  height: 50px; /* Gør højden større */
+  border: 2px solid limegreen;
+  border-radius: 5px;
+  background-color: white;
+  position: relative;
+  margin-top: 10px;
+}
+
+.status-fill {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.status-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 10px; /* Giver lidt plads mellem status og bar */
+}
