@@ -1,0 +1,85 @@
+<div class="container">
+  <h1>Opret Ny Sag</h1>
+  <form>
+    <!-- Kundeoplysninger -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Kundeoplysninger</mat-label>
+      <input matInput placeholder="Indtast kundens navn og kontaktinfo" />
+    </mat-form-field>
+
+    <!-- Udstyrstype -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Udstyrstype</mat-label>
+      <input matInput placeholder="Indtast udstyrstype (fx laptop, printer)" />
+    </mat-form-field>
+
+    <!-- Beskrivelse af problem -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Beskrivelse af problem</mat-label>
+      <textarea matInput placeholder="Beskriv problemet"></textarea>
+    </mat-form-field>
+
+    <!-- Oprettelsesdato -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Oprettelsesdato</mat-label>
+      <input matInput [value]="currentDate" readonly />
+    </mat-form-field>
+
+    <!-- Forventet levering -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Forventet levering</mat-label>
+      <input matInput [matDatepicker]="picker" placeholder="Vælg dato" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Prioritet -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Prioritet</mat-label>
+      <mat-select>
+        <mat-option value="low">Lav</mat-option>
+        <mat-option value="medium">Mellem</mat-option>
+        <mat-option value="high">Høj</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Tildeling af tekniker -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Tildel tekniker</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let tech of teknikere" [value]="tech">
+          {{ tech }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Opret-knap -->
+    <button mat-raised-button color="primary" (click)="onSubmit()">Opret Sag</button>
+
+    <!-- status bar -->
+    <div class="progress-container">
+      <div class="status-row">
+        <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
+        <div class="status-bar">
+          <div
+            class="status-fill"
+            [ngStyle]="{
+          height: '100%',
+          width: (currentStatusIndex + 1) * 25 + '%',
+          backgroundColor: 'limegreen'
+        }"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button *ngFor="let status of statuses; let i = index" mat-button (click)="updateStatus(i)">
+        Skift til {{ status }}
+      </button>
+    </div>
+
+  </form>
+</div>
+
+
