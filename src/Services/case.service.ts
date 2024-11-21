@@ -8,11 +8,12 @@ export interface Case{
   equipmentType: string;
   problemDescription: string;
   creationDate: string;
-  expectedDeliveryDate: string;
+  expectedDeliveryDate: string | null;
   priority: string;
   assignedTechnician: string;
   status: string;
 }
+
 
 @Injectable({
   providedIn: 'root'
