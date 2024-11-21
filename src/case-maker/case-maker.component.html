@@ -4,19 +4,19 @@
     <!-- Kundeoplysninger -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Kundeoplysninger</mat-label>
-      <input matInput placeholder="Indtast kundens navn og kontaktinfo" />
+      <input matInput placeholder="Indtast kundens navn og kontaktinfo" [(ngModel)]="caseData.customerName" name="customerName" />
     </mat-form-field>
 
     <!-- Udstyrstype -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Udstyrstype</mat-label>
-      <input matInput placeholder="Indtast udstyrstype (fx laptop, printer)" />
+      <input matInput placeholder="Indtast udstyrstype (fx laptop, printer)" [(ngModel)]="caseData.equipmentType" name="equipmentType" />
     </mat-form-field>
 
     <!-- Beskrivelse af problem -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Beskrivelse af problem</mat-label>
-      <textarea matInput placeholder="Beskriv problemet"></textarea>
+      <textarea matInput placeholder="Beskriv problemet" [(ngModel)]="caseData.problemDescription" name="problemDescription"></textarea>
     </mat-form-field>
 
     <!-- Oprettelsesdato -->
@@ -28,7 +28,7 @@
     <!-- Forventet levering -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Forventet levering</mat-label>
-      <input matInput [matDatepicker]="picker" placeholder="Vælg dato" />
+      <input matInput [matDatepicker]="picker" placeholder="Vælg dato" [(ngModel)]="caseData.expectedDeliveryDate" name="expectedDeliveryDate" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -36,7 +36,7 @@
     <!-- Prioritet -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Prioritet</mat-label>
-      <mat-select>
+      <mat-select [(ngModel)]="caseData.priority" name="priority">
         <mat-option value="low">Lav</mat-option>
         <mat-option value="medium">Mellem</mat-option>
         <mat-option value="high">Høj</mat-option>
@@ -46,7 +46,7 @@
     <!-- Tildeling af tekniker -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Tildel tekniker</mat-label>
-      <mat-select>
+      <mat-select [(ngModel)]="caseData.assignedTechnician" name="assignedTechnician">
         <mat-option *ngFor="let tech of teknikere" [value]="tech">
           {{ tech }}
         </mat-option>
@@ -56,7 +56,8 @@
     <!-- Opret-knap -->
     <button mat-raised-button color="primary" (click)="onSubmit()">Opret Sag</button>
 
-    <!-- status bar -->
+    <!-- Progress Bar -->
+    <h2>Status</h2>
     <div class="progress-container">
       <div class="status-row">
         <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
@@ -64,22 +65,18 @@
           <div
             class="status-fill"
             [ngStyle]="{
-          height: '100%',
-          width: (currentStatusIndex + 1) * 25 + '%',
-          backgroundColor: 'limegreen'
-        }"
+              width: (currentStatusIndex + 1) * 25 + '%'
+            }"
           ></div>
         </div>
       </div>
     </div>
 
-    <div>
+    <!-- Skift status knapper -->
+    <div class="status-buttons">
       <button *ngFor="let status of statuses; let i = index" mat-button (click)="updateStatus(i)">
         Skift til {{ status }}
       </button>
     </div>
-
   </form>
 </div>
-
-
