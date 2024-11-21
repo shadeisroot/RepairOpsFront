@@ -40,7 +40,7 @@ export class CaseMakerComponent implements OnInit{
     problemDescription: '',
     creationDate: '',
     expectedDeliveryDate: '',
-    priority: 'low',
+    priority: 'Lav',
     assignedTechnician: '',
     status: 'Modtaget'
   };
@@ -103,25 +103,28 @@ export class CaseMakerComponent implements OnInit{
       return;
     }
 
-    const newCase: Case = {
-      id: '',
+    const newCase: Partial<Case> = {
       customerName: this.caseData.customerName!,
       equipmentType: this.caseData.equipmentType!,
       problemDescription: this.caseData.problemDescription!,
-      creationDate: this.currentDate,
-      expectedDeliveryDate: this.caseData.expectedDeliveryDate!,
+      creationDate: this.caseData.creationDate ? new Date(this.caseData.creationDate).toISOString() : new Date().toISOString(),
+      expectedDeliveryDate: this.caseData.expectedDeliveryDate ? new Date(this.caseData.expectedDeliveryDate).toISOString() : '',
       priority: this.caseData.priority!,
       assignedTechnician: this.caseData.assignedTechnician!,
       status: this.caseData.status!
     };
 
-    this.caseService.createCase(newCase).subscribe({
+    console.log('New case data:', newCase);
+
+    this.caseService.createCase(newCase as Case).subscribe({
       next: (data) => {
         console.log('Ny sag oprettet', data);
         this.loadCases();
         this.resetForm();
       },
-      error: (err) => console.error('Fejl ved oprettelse af sag', err)
+      error: (err) => {
+        console.error('Fejl ved oprettelse af sag', err);
+      }
     });
   }
 
@@ -133,7 +136,7 @@ export class CaseMakerComponent implements OnInit{
       problemDescription: '',
       creationDate: this.currentDate,
       expectedDeliveryDate: '',
-      priority: 'low',
+      priority: 'Lav',
       assignedTechnician: '',
       status: 'Modtaget'
     };
