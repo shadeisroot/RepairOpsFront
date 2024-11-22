@@ -31,9 +31,12 @@ import {Case, CaseService} from '../Services/case.service';
   styleUrl: './case-maker.component.css'
 })
 export class CaseMakerComponent implements OnInit{
+  //array til at gemme cases
   cases: Case[] = [];
+  //variable til at gemme en enkelt case
   selectedCase: Case | null = null;
 
+  //form data til oprettelse/redigering af case
   caseData: Partial<Case> = {
     customerName: '',
     equipmentType: '',
@@ -44,12 +47,15 @@ export class CaseMakerComponent implements OnInit{
     assignedTechnician: '',
     status: 'Modtaget'
   };
-
+  //formatere dagen i dag til string
   currentDate: string = new Date().toISOString();
-
+  //holder styr på index af den aktuelle status
   currentStatusIndex: number = 0;
 
+  //Hard code liste til de teknikere man kan vælge
+  //Dette skal ændres når man kan oprette sig som tekniker
   teknikere: string[] = ['Tekniker A', 'Tekniker B', 'Tekniker C'];
+  //Hard code liste af status
   statuses: string[] = [
     'Modtaget',
     'Under reparation',
@@ -59,50 +65,52 @@ export class CaseMakerComponent implements OnInit{
 
   constructor(private caseService: CaseService) {}
 
+
   ngOnInit() {
-    this.loadCases();
-    this.caseData.creationDate = this.currentDate;
+    this.loadCases(); //henter allerede oprettet cases fra server
+    this.caseData.creationDate = this.currentDate; //sætter oprettelses dato
   }
 
   // Hent alle sager
   loadCases() {
     this.caseService.getCases().subscribe({
-      next: (data) => this.cases = data,
-      error: (err) => console.error('Fejl ved hentning af sager', err)
+      next: (data) => this.cases = data, //opdatere case med data fra server
+      error: (err) => console.error('Fejl ved hentning af sager', err) //fejlhåndtering
     });
   }
 
-  // Hent en specifik sag
+  // Hent en specifik sag ud fra id
   selectCase(id: string) {
     this.caseService.getCase(id).subscribe({
       next: (data) => {
-        this.selectedCase = data;
-        this.currentStatusIndex = this.statuses.indexOf(data.status);
+        this.selectedCase = data; //opdatere valgte case med data fra server
+        this.currentStatusIndex = this.statuses.indexOf(data.status); //sætter status index
       },
-      error: (err) => console.error('Fejl ved hentning af sag', err)
+      error: (err) => console.error('Fejl ved hentning af sag', err) //fejlhåndtering
     });
   }
 
   // Opdater status på den valgte sag
   updateStatus(index: number) {
     if (this.selectedCase) {
-      this.currentStatusIndex = index;
-      this.selectedCase.status = this.statuses[index];
+      this.currentStatusIndex = index; //opdatere status index
+      this.selectedCase.status = this.statuses[index]; //opdatere status for den valgte case
 
       this.caseService.updateCase(this.selectedCase.id, this.selectedCase).subscribe({
-        next: () => console.log('Status opdateret'),
-        error: (err) => console.error('Fejl ved opdatering af status', err)
+        next: () => console.log('Status opdateret'), //logger succes
+        error: (err) => console.error('Fejl ved opdatering af status', err) //fejlhåndtering
       });
     }
   }
 
   // Opret en ny sag
   onSubmit() {
+    //validrer felter
     if (!this.caseData.customerName || !this.caseData.equipmentType) {
       console.error('Kundeoplysninger og udstyrstype skal udfyldes!');
       return;
     }
-
+    //samler data for en ny case
     const newCase: Partial<Case> = {
       customerName: this.caseData.customerName!,
       equipmentType: this.caseData.equipmentType!,
@@ -114,16 +122,16 @@ export class CaseMakerComponent implements OnInit{
       status: this.caseData.status!
     };
 
-    console.log('New case data:', newCase);
-
+    console.log('New case data:', newCase); //logger data (brugt til debug)
+    //sender den nye case til server
     this.caseService.createCase(newCase as Case).subscribe({
       next: (data) => {
-        console.log('Ny sag oprettet', data);
-        this.loadCases();
-        this.resetForm();
+        console.log('Ny sag oprettet', data); //logger succes
+        this.loadCases(); //genindlaeser listen over cases
+        this.resetForm(); //nulstiller formularen
       },
       error: (err) => {
-        console.error('Fejl ved oprettelse af sag', err);
+        console.error('Fejl ved oprettelse af sag', err); //fejlhåndtering
       }
     });
   }
