@@ -18,10 +18,10 @@ export class LoginService {
 
 
   login(credentials: { username: string; password: string }) {
-    return this.http.post<{ token: string }>('/api/login', credentials).subscribe({
+    return this.http.post<{ token: string }>(this.baseUrl + '/User/LoginUser', credentials).subscribe({
       next: (response) => {
         localStorage.setItem(this.TOKEN_KEY, response.token);
-        this.router.navigate(['/protected-page']);
+        this.router.navigate(['/case']);
       },
       error: (err) => console.error('Login failed', err),
     });
