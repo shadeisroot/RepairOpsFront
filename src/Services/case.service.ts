@@ -25,7 +25,7 @@ export class CaseService {
   constructor(private http: HttpClient) { }
 
   //henter alle cases
-  getCases(): Observable<Case[]> {
+  getAllCases(): Observable<Case[]> {
     return this.http.get<Case[]>(this.apiUrl); //sender get andmodning
   }
 

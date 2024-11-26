@@ -73,7 +73,7 @@ export class CaseMakerComponent implements OnInit{
 
   // Hent alle sager
   loadCases() {
-    this.caseService.getCases().subscribe({
+    this.caseService.getAllCases().subscribe({
       next: (data) => this.cases = data, //opdatere case med data fra server
       error: (err) => console.error('Fejl ved hentning af sager', err) //fejlhåndtering
     });

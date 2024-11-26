@@ -1,0 +1,35 @@
+<div *ngIf="cases.length > 0; else noCases">
+  <h2>Liste over sager</h2>
+  <table class="cases-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Navn</th>
+      <th>Udstyr</th>
+      <th>Beskrivelse</th>
+      <th>Oprettet</th>
+      <th>Forventet Levering</th>
+      <th>Prioritet</th>
+      <th>Tekniker</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let caseItem of cases" class="case-row">
+      <td>{{ caseItem.id }}</td>
+      <td>{{ caseItem.customerName }}</td>
+      <td>{{ caseItem.equipmentType }}</td>
+      <td>{{ caseItem.problemDescription }}</td>
+      <td>{{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ caseItem.expectedDeliveryDate ? (caseItem.expectedDeliveryDate | date: 'dd-MM-yyyy') : 'Ikke angivet' }}</td>
+      <td>{{ caseItem.priority }}</td>
+      <td>{{ caseItem.assignedTechnician }}</td>
+      <td>{{ caseItem.status }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noCases>
+  <p>Ingen sager fundet.</p>
+</ng-template>
