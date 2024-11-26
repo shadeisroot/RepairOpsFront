@@ -1,10 +1,11 @@
 import {HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {LoginService} from './Services/login.service';
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private loginservice: LoginService) {}
+  constructor(private loginservice: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const token = this.loginservice.getToken();
