@@ -13,6 +13,7 @@ export interface Case{
   priority: string;
   assignedTechnician: string;
   status: string;
+  isEditing?: boolean;
 }
 
 
@@ -40,8 +41,8 @@ export class CaseService {
   }
 
   //opdater en sag med id
-  updateCase(id: string, updatedCase: Partial<Case>): Observable<Case> {
-    return this.http.put<Case>(`${this.apiUrl}/${id}`, updatedCase); //sender put anmodning med det nye data
+  updateCase(id: string, updatedFields: Partial<Case>): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, updatedFields);
   }
 
   //slet en sag med id
