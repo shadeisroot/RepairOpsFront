@@ -1,0 +1,72 @@
+/* Tabelstil: Bredden justeres for flere kolonner */
+.cases-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  table-layout: auto; /* Tillad justerbar kolonnebredde */
+}
+
+/* Header styling */
+.cases-table th {
+  background-color: #f4f4f4;
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid #ddd;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Række-stil */
+.case-row {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  display: block;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Responsiv stil for individuelle celler */
+.case-row td {
+  display: block;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Brug data-label som overskrift */
+.case-row td::before {
+  content: attr(data-label);
+  font-weight: bold;
+  display: inline-block;
+  width: 140px; /* Justerbar bredde for labels */
+  color: #555;
+}
+
+/* Fjern standard tabelstil */
+.case-row td {
+  border-bottom: none;
+}
+
+/* Skift til tabel-layout på store skærme */
+@media (min-width: 768px) {
+  .case-row {
+    display: table-row;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .case-row td {
+    display: table-cell;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .cases-table th,
+  .case-row td {
+    text-align: left;
+  }
+}
