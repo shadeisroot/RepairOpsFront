@@ -7,7 +7,7 @@ import {CasesListComponent} from '../cases-list/cases-list.component';
 import {NgModule} from '@angular/core';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'caseslist', pathMatch: 'full' },
+  {path: '', redirectTo: 'frontpage', pathMatch: 'full' },
   {path : 'login', component: LoginComponent},
   {path : 'frontpage', component: FrontpageComponent},
   {path : 'case', component: CaseMakerComponent, canActivate: [AuthGuard]},
