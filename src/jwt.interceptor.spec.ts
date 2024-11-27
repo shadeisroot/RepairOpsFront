@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {HttpInterceptorFn, HttpHandler, HttpRequest, HttpEvent} from '@angular/common/http';
 import { JwtInterceptor } from './jwt.interceptor';
-import { AuthService } from './auth.service';
+import { AuthService } from './Services/auth.service';
 import {Observable} from 'rxjs';
 
 describe('jwtInterceptor', () => {

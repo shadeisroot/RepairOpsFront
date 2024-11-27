@@ -19,17 +19,4 @@ export class AuthService {
       error: (err) => console.error('Login failed', err),
     });
   }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
-    this.router.navigate(['/login']);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
 }
