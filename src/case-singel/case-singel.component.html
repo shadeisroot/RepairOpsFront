@@ -11,7 +11,6 @@
       <th>Forventet Levering</th>
       <th>Prioritet</th>
       <th>Tildelt Tekniker</th>
-      <th>Status</th>
     </tr>
     <tr>
       <td>{{ foundCase.id }}</td>
@@ -26,11 +25,21 @@
       </td>
       <td>{{ foundCase.priority }}</td>
       <td>{{ foundCase.assignedTechnician }}</td>
-      <td>{{ foundCase.status }}</td>
     </tr>
   </table>
+  <h2>Status</h2>
+  <div class="progress-container">
+    <div class="status-row">
+      <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
+      <div class="status-bar">
+        <div
+          class="status-fill"
+          [ngStyle]="{ width: ((currentStatusIndex + 1) / statuses.length) * 100 + '%' }"
+        ></div>
+      </div>
+    </div>
+  </div>
 </div>
-
 
 <ng-template #notFound>
   <p>Sagen blev ikke fundet.</p>

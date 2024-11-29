@@ -7,46 +7,6 @@ body {
   color: #333;
 }
 
-/* Container for søgefelt og knap */
-div {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Inputfelt styling */
-input[type="text"] {
-  padding: 10px;
-  width: 300px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-input[type="text"]:focus {
-  border-color: #007bff;
-  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
-  outline: none;
-}
-
-/* Knap styling */
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
 /* Tabel styling */
 table {
   width: 100%;
@@ -79,4 +39,43 @@ table tr:hover {
   font-weight: bold;
   text-align: center;
   margin-top: 10px;
+}
+
+/* Progressbar container */
+.progress-container {
+  margin: 20px auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+/* Status row */
+.status-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Status label */
+.status-label {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Status bar */
+.status-bar {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Filled part of the progress bar */
+.status-fill {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.5s ease-in-out;
 }
