@@ -8,39 +8,6 @@
   <button (click)="searchCaseById()">Søg</button>
 </div>
 
-<!-- Vis fundet sag -->
-<div *ngIf="foundCase">
-  <h3>Fundet Sag</h3>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Kunde</th>
-      <th>Udstyrstype</th>
-      <th>Problem</th>
-      <th>Oprettet</th>
-      <th>Forventet Levering</th>
-      <th>Prioritet</th>
-      <th>Tildelt Tekniker</th>
-      <th>Status</th>
-    </tr>
-    <tr>
-      <td>{{ foundCase.id }}</td>
-      <td>{{ foundCase.customerName }}</td>
-      <td>{{ foundCase.equipmentType }}</td>
-      <td>{{ foundCase.problemDescription }}</td>
-      <td>{{ foundCase.creationDate | date: 'dd-MM-yyyy' }}</td>
-      <td>
-        {{ foundCase.expectedDeliveryDate
-        ? (foundCase.expectedDeliveryDate | date: 'dd-MM-yyyy')
-        : 'Ikke angivet' }}
-      </td>
-      <td>{{ foundCase.priority }}</td>
-      <td>{{ foundCase.assignedTechnician }}</td>
-      <td>{{ foundCase.status }}</td>
-    </tr>
-  </table>
-</div>
-
 <!-- Hvis ingen sag blev fundet -->
 <div *ngIf="searchError" class="error-message">
   {{ searchError }}

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Case, CaseService} from '../Services/case.service';
 import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-frontpage',
@@ -19,25 +20,13 @@ export class FrontpageComponent {
   foundCase: Case | null = null; // Fundet sag
   searchError: string | null = null; // Fejlmeddelelse
 
-  constructor(private caseService: CaseService) {}
+  constructor(private caseService: CaseService, private router: Router) {}
 
   searchCaseById(): void {
     if (!this.searchId) {
-      this.searchError = 'Sags-ID skal udfyldes.';
-      this.foundCase = null;
+      console.error('ID skal udfyldes!');
       return;
     }
-
-    this.caseService.getCase(this.searchId).subscribe({
-      next: (caseItem) => {
-        this.foundCase = caseItem; // Gem fundet sag
-        this.searchError = null; // Nulstil fejlmeddelelse
-      },
-      error: (err) => {
-        console.error('Fejl ved hentning af sag:', err);
-        this.foundCase = null; // Ryd fundet sag
-        this.searchError = 'Sagen blev ikke fundet. Tjek ID og prøv igen.';
-      }
-    });
+    this.router.navigate(['/casesingle', this.searchId]); // Naviger til det nye route
   }
 }
