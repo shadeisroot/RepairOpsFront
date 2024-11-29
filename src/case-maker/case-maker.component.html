@@ -53,30 +53,21 @@
       </mat-select>
     </mat-form-field>
 
+    <!-- Tildeling af status -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Opdater status</mat-label>
+      <!-- Binding til caseData.status -->
+      <mat-select [(ngModel)]="caseData.status" name="status">
+        <!-- Gennemgå alle statusmuligheder -->
+        <mat-option *ngFor="let status of statuses" [value]="status">
+          {{ status }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
     <!-- Opret-knap -->
     <button mat-raised-button color="primary" (click)="onSubmit()">Opret Sag</button>
 
-    <!-- Progress Bar -->
-    <h2>Status</h2>
-    <div class="progress-container">
-      <div class="status-row">
-        <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
-        <div class="status-bar">
-          <div
-            class="status-fill"
-            [ngStyle]="{
-              width: (currentStatusIndex + 1) * 25 + '%'
-            }"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Skift status knapper -->
-    <div class="status-buttons">
-      <button *ngFor="let status of statuses; let i = index" mat-button (click)="updateStatus(i)">
-        Skift til {{ status }}
-      </button>
-    </div>
   </form>
 </div>

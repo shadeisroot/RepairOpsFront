@@ -17,16 +17,17 @@ import {Router} from '@angular/router';
 })
 export class FrontpageComponent {
   searchId: string = ''; // ID til søgning
-  foundCase: Case | null = null; // Fundet sag
   searchError: string | null = null; // Fejlmeddelelse
 
   constructor(private caseService: CaseService, private router: Router) {}
 
   searchCaseById(): void {
     if (!this.searchId) {
+      //hvis det ikke er indtastet noget
       console.error('ID skal udfyldes!');
       return;
     }
-    this.router.navigate(['/casesingle', this.searchId]); // Naviger til det nye route
+    //route til bestemt sag (casesingle side + id)
+    this.router.navigate(['/casesingle', this.searchId]);
   }
 }
