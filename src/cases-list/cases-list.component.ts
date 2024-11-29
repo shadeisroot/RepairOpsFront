@@ -31,13 +31,15 @@ export class CasesListComponent implements OnInit{
 
   loadCases(): void {
     this.caseService.getAllCases().subscribe({
+      //hvis hentet rigtig sker dette
       next: (cases) => {
-        // Tilføj en isEditing egenskab til hver sag
+        //tilføjet en isEditing egenskab til hver sag
         this.cases = cases.map((caseItem) => ({
-          ...caseItem,
-          isEditing: false
+          ...caseItem, //beholder allerede lavet data fra sag
+          isEditing: false //sætter isediting til false
         }));
       },
+      //ewwor
       error: (err) => console.error('Fejl ved indlæsning af sager:', err)
     });
   }
@@ -55,10 +57,12 @@ export class CasesListComponent implements OnInit{
 
     this.caseService.updateCase(caseItem.id, updatedCase).subscribe({
       next: (response) => {
+        //logger hvis opdatering lykkes
         console.log('Sagen blev opdateret:', response);
         caseItem.isEditing = false;
       },
       error: (err) => {
+        //ewwor
         console.error('Fejl ved opdatering af sag:', err);
       }
     });
