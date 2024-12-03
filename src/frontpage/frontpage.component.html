@@ -1,14 +1,42 @@
-<div>
-  <!-- Søgefelt -->
-  <input
-    type="text"
-    [(ngModel)]="searchId"
-    placeholder="Indtast Sags-ID"
-  />
-  <button (click)="searchCaseById()">Søg</button>
+
+
+
+<div class="hero">
+  <h1>RepairOps<span class="glow"> | Cyber Reparationer</span></h1>
+  <p>Hvor teknologi bliver genfødt.</p>
+  <div class="search-container">
+    <!-- Søgefelt -->
+    <input
+      type="text"
+      [(ngModel)]="searchId"
+      placeholder="Indtast Sags-ID"
+      class="search-input"
+    />
+    <button (click)="searchCaseById()" class="search-button">Søg</button>
+  </div>
+  <!-- Hvis ingen sag blev fundet -->
+  <div *ngIf="searchError" class="error-message">
+    {{ searchError }}
+  </div>
 </div>
 
-<!-- Hvis ingen sag blev fundet -->
-<div *ngIf="searchError" class="error-message">
-  {{ searchError }}
+<div class="services" id="services">
+  <h2><span class="glow">Vores Tjenester</span></h2>
+  <ul>
+    <li>Neon Smartphone Reparation</li>
+    <li>Futuristisk Laptop Diagnostik</li>
+    <li>Avancerede Tablet Opgraderinger</li>
+    <li>Game Console Modifikationer</li>
+    <li>Specialfremstillede Elektroniske Enheder</li>
+  </ul>
+</div>
+
+<div class="contact">
+  <h2><span class="glow">Kontakt Os</span></h2>
+  <form>
+    <input type="text" placeholder="Dit Navn" required />
+    <input type="email" placeholder="Din Email" required />
+    <textarea placeholder="Din Besked" rows="4"></textarea>
+    <button type="submit">Send Besked</button>
+  </form>
 </div>

@@ -55,3 +55,209 @@ button:hover {
   text-align: center;
   margin-top: 10px;
 }
+/* Cyberpunk Theme */
+
+/* Global Styles */
+body {
+  font-family: 'Orbitron', sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #1e1e30, #13131f);
+  box-shadow: 0 0 20px #1a1a2e;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #00fff0;
+  text-shadow: 0 0 10px #00fff0, 0 0 20px #00fff0;
+}
+
+.hero .glow {
+  color: #ff0080;
+  text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+}
+
+.hero p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #aaaaaa;
+}
+
+.hero .btn {
+  margin-top: 20px;
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #00fff0, #ff0080);
+  color: #ffffff;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+.hero .btn:hover {
+  background: linear-gradient(45deg, #ff0080, #00fff0);
+  transform: scale(1.1);
+}
+
+/* Services Section */
+.services {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #13131f;
+}
+
+.services h2 {
+  font-size: 2.5rem;
+  color: #00fff0;
+  margin-bottom: 20px;
+}
+
+.services ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.services li {
+  font-size: 1.2rem;
+  margin: 15px 0;
+  color: #ffffff;
+  text-shadow: 0 0 5px #ffffff;
+  transition: 0.3s ease;
+}
+
+.services li:hover {
+  color: #ff0080;
+  text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+}
+
+/* Contact Section */
+.contact {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #1e1e30, #13131f);
+}
+
+.contact form {
+  display: inline-block;
+  max-width: 400px;
+  text-align: left;
+}
+
+.contact input, .contact textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #1e1e30;
+  color: #ffffff;
+  border: 1px solid #00fff0;
+  border-radius: 5px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.contact button {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(45deg, #ff0080, #00fff0);
+  color: #ffffff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.contact button:hover {
+  background: linear-gradient(45deg, #00fff0, #ff0080);
+  transform: scale(1.1);
+}
+
+/* Neon Glow Effect */
+.glow {
+  color: #00fff0;
+  text-shadow: 0 0 10px #00fff0, 0 0 20px #00fff0;
+}
+/* Cyberpunk Theme */
+
+/* Container for the search */
+.search-container {
+  text-align: center;
+  margin: 50px 20px;
+}
+
+/* Search Input Field */
+.search-input {
+  width: 300px;
+  padding: 10px;
+  background-color: #1e1e30;
+  color: #00fff0;
+  border: 1px solid #00fff0;
+  border-radius: 5px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: 0 0 10px #00fff0;
+  transition: 0.3s ease-in-out;
+}
+
+.search-input::placeholder {
+  color: #5555ff;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 20px #ff0080, 0 0 40px #00fff0;
+}
+
+/* Search Button */
+.search-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #ff0080, #00fff0);
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Orbitron', sans-serif;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px #ff0080;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.search-button:hover {
+  transform: scale(1.1);
+  background: linear-gradient(45deg, #00fff0, #ff0080);
+  box-shadow: 0 0 20px #00fff0, 0 0 30px #ff0080;
+}
+
+/* Error Message */
+.error-message {
+  margin-top: 20px;
+  color: #ff0080;
+  font-size: 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+  animation: pulse 1.5s infinite;
+}
+
+/* Glow Animation for Error Message */
+@keyframes pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+  }
+  50% {
+    text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080;
+  }
+}
+
