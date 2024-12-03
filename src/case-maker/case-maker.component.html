@@ -47,8 +47,8 @@
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Tildel tekniker</mat-label>
       <mat-select [(ngModel)]="caseData.assignedTechnician" name="assignedTechnician">
-        <mat-option *ngFor="let tech of teknikere" [value]="tech">
-          {{ tech }}
+        <mat-option *ngFor="let tech of teknikere" [value]="tech.username">
+          {{ tech.username }}
         </mat-option>
       </mat-select>
     </mat-form-field>

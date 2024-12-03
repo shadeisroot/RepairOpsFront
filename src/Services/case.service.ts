@@ -16,12 +16,18 @@ export interface Case{
   isEditing?: boolean;
 }
 
+export interface User {
+  id: number;
+  username: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CaseService {
   private apiUrl = 'http://localhost:5102/api/case'; //base URL fra vores api(for case)
+  readonly baseUrl: string = 'http://localhost:5102/api/user/GetAllUsers';
 
   constructor(private http: HttpClient) { }
 
@@ -48,6 +54,10 @@ export class CaseService {
   //slet en sag med id
   deleteCase(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`); //sender delete anmodning
+  }
+
+  getTechnicians(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl);
   }
 
 }
