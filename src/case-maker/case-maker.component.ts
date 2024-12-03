@@ -12,7 +12,7 @@ import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatNativeDateModule} from '@angular/material/core';
-import {Case, CaseService} from '../Services/case.service';
+import {Case, CaseService, User} from '../Services/case.service';
 
 @Component({
   selector: 'app-case-maker',
@@ -52,9 +52,8 @@ export class CaseMakerComponent implements OnInit{
   //holder styr på index af den aktuelle status
   currentStatusIndex: number = 0;
 
-  //Hard code liste til de teknikere man kan vælge
-  //Dette skal ændres når man kan oprette sig som tekniker
-  teknikere: string[] = ['Tekniker A', 'Tekniker B', 'Tekniker C'];
+  //Hard code liste til de teknikere man kan vælge (User)
+  teknikere: User[] = [];
   //Hard code liste af status
   statuses: string[] = [
     'Modtaget',
@@ -69,6 +68,7 @@ export class CaseMakerComponent implements OnInit{
   ngOnInit() {
     this.loadCases(); //henter allerede oprettet cases fra server
     this.caseData.creationDate = this.currentDate; //sætter oprettelses dato
+    this.loadTechnicians();
   }
 
   // Hent alle sager
@@ -78,6 +78,14 @@ export class CaseMakerComponent implements OnInit{
       error: (err) => console.error('Fejl ved hentning af sager', err) //fejlhåndtering
     });
   }
+
+  loadTechnicians() {
+    this.caseService.getTechnicians().subscribe({
+      next: (data) => (this.teknikere = data), // opdaterer listen over teknikere
+      error: (err) => console.error('Fejl ved hentning af teknikere', err) // fejlhåndtering
+    });
+  }
+
 
   // Hent en specifik sag ud fra id
   selectCase(id: string) {
