@@ -30,4 +30,7 @@ export class FrontpageComponent {
     //route til bestemt sag (casesingle side + id)
     this.router.navigate(['/casesingle', this.searchId]);
   }
+  onLogin(): void {
+    this.router.navigate(['/login']);
+  }
 }

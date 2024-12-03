@@ -1,84 +1,104 @@
+/* Container */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;  /* Vertically center */
-  padding: 0 20px;  /* Add padding on the left and right */
+  padding: 20px;
+  background: linear-gradient(145deg, #1a1a1a, #292929);
+  border: 2px solid #ff0080;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #ff0080, 0 0 30px #ff6600;
+  max-width: 400px;
+  margin: 50px auto;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;  /* Limit the width of the form */
-  padding: 20px;  /* Padding around the form */
-  background-color: #f9f9f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
+/* Logo */
 .logo {
-  max-width: 300px;
-  width: 100%;
+  max-width: 150px;
   margin-bottom: 20px;
-  height: auto;
 }
 
+/* Input Group */
 .input-group {
+  margin-bottom: 20px;
   width: 100%;
-  margin-bottom: 15px;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #ff6600;
 }
 
 .input-group input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  font-size: 16px;
+  color: #fff;
+  background: #1a1a1a;
+  border: 2px solid #ff0080;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+  outline: none;
+  transition: all 0.3s ease;
 }
 
-/* Checkbox container */
+.input-group input:focus {
+  border-color: #00f0ff;
+  box-shadow: 0 0 15px #00f0ff;
+}
+
+/* Checkbox Container */
 .checkbox-container {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align items to the start */
-  width: 100%;
-  margin-bottom: 15px; /* Add space below the checkbox */
+  margin-bottom: 20px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px;
+  accent-color: #ff6600;
 }
 
 .checkbox-container label {
-  margin-left: 8px; /* Space between checkbox and label */
+  color: #ff6600;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 20px;
-}
-
-button {
-  width: 48%;  /* Half-width buttons */
-  padding: 10px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
+/* Button */
+.cyberpunk-button {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(45deg, #ff0080, #ff6600);
+  border: 2px solid #ff0080;
+  padding: 10px 20px;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 0 10px #ff0080, 0 0 20px #ff6600, 0 0 30px rgba(255, 0, 128, 0.7);
+  transition: all 0.3s ease;
+  border-radius: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
+.cyberpunk-button:hover {
+  box-shadow: 0 0 20px #ff0080, 0 0 40px #ff6600, 0 0 60px rgba(255, 0, 128, 0.9);
+  transform: scale(1.05);
 }
 
-#errorMessage {
-  color: red;
-  margin-top: 15px;
+/* Error and Success Messages */
+.cyberpunk-message {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff0080;
+  text-shadow: 0 0 10px #ff6600;
+}
+:host {
+  display: block;
+  background-color: black;
+  color: white; /* Adjust text color for visibility */
+  height: 100vh; /* Optional: Make it cover the full viewport height */
+  width: 100%; /* Optional: Ensure it spans the full width */
 }
