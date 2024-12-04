@@ -73,4 +73,16 @@ export class CasesListComponent implements OnInit{
     this.loadCases();
     caseItem.isEditing = false;
   }
+
+  deleteCase(caseId: string) {
+    if (confirm('Er du sikker på at du vil afslutte sag')) {
+      this.caseService.deleteCase(caseId).subscribe({
+        next: () => {
+          console.log('Sag blev afsluttet:', caseId);
+          this.cases = this.cases.filter(c => c.id !== caseId);
+        },
+        error: err => console.error('Fejl ved afslutning af sag:', err)
+      })
+    }
+  }
 }
