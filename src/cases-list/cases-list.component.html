@@ -1,45 +1,32 @@
-<div *ngIf="cases.length > 0; else noCases">
-  <h2>Liste over sager</h2>
-  <table class="cases-table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Navn</th>
-      <th>Udstyr</th>
-      <th>Beskrivelse</th>
-      <th>Oprettet</th>
-      <th>Forventet Levering</th>
-      <th>Prioritet</th>
-      <th>Tekniker</th>
-      <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let caseItem of cases" class="case-row">
-      <td>{{ caseItem.id }}</td>
-      <td>{{ caseItem.customerName }}</td>
-      <td>{{ caseItem.equipmentType }}</td>
-      <td>{{ caseItem.problemDescription }}</td>
-      <td>{{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</td>
-      <td>{{ caseItem.expectedDeliveryDate ? (caseItem.expectedDeliveryDate | date: 'dd-MM-yyyy') : 'Ikke angivet' }}</td>
-      <td>{{ caseItem.priority }}</td>
-      <td>{{ caseItem.assignedTechnician }}</td>
-      <td>
-        <!-- Status vises eller redigeres -->
+<div class="cases-container" *ngIf="cases.length > 0; else noCases">
+  <h2 class="cases-header">Liste over sager</h2>
+  <div class="case-box" *ngFor="let caseItem of cases">
+    <h3 class="case-id">Sag ID: {{ caseItem.id }}</h3>
+    <div class="case-details">
+      <p><strong>Navn + mail:</strong> {{ caseItem.customerName }}</p>
+      <p><strong>Udstyr:</strong> {{ caseItem.equipmentType }}</p>
+      <p><strong>Beskrivelse:</strong> {{ caseItem.problemDescription }}</p>
+      <p><strong>Oprettet:</strong> {{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</p>
+      <p>
+        <strong>Forventet Levering:</strong>
+        {{ caseItem.expectedDeliveryDate ? (caseItem.expectedDeliveryDate | date: 'dd-MM-yyyy') : 'Ikke angivet' }}
+      </p>
+      <p><strong>Prioritet:</strong> {{ caseItem.priority }}</p>
+      <p><strong>Tekniker:</strong> {{ caseItem.assignedTechnician }}</p>
+      <p><strong>Status:</strong>
         <span *ngIf="!caseItem.isEditing">{{ caseItem.status }}</span>
         <select *ngIf="caseItem.isEditing" [(ngModel)]="caseItem.status">
           <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
         </select>
-      </td>
-      <td>
-        <!-- Handlinger: Rediger, Gem, Annuller -->
-        <button *ngIf="!caseItem.isEditing" (click)="editCase(caseItem)">Rediger</button>
-        <button *ngIf="caseItem.isEditing" (click)="saveCase(caseItem)">Gem</button>
-        <button *ngIf="caseItem.isEditing" (click)="cancelEdit(caseItem)">Annuller</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </p>
+    </div>
+    <div class="case-actions">
+      <button *ngIf="!caseItem.isEditing" (click)="editCase(caseItem)">Rediger</button>
+      <button *ngIf="caseItem.isEditing" (click)="saveCase(caseItem)">Gem</button>
+      <button *ngIf="caseItem.isEditing" (click)="cancelEdit(caseItem)">Annuller</button>
+      <button (click)="deleteCase(caseItem.id)" class="afslut-knap">Afslut Sag</button>
+    </div>
+  </div>
 </div>
 
 <ng-template #noCases>

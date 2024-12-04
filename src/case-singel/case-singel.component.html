@@ -1,35 +1,49 @@
-<!-- Vis fundet sag -->
-<div *ngIf="foundCase; else notFound">
-  <h3>Fundet Sag</h3>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Kunde</th>
-      <th>Udstyrstype</th>
-      <th>Problem</th>
-      <th>Oprettet</th>
-      <th>Forventet Levering</th>
-      <th>Prioritet</th>
-      <th>Tildelt Tekniker</th>
-    </tr>
-    <tr>
-      <td>{{ foundCase.id }}</td>
-      <td>{{ foundCase.customerName }}</td>
-      <td>{{ foundCase.equipmentType }}</td>
-      <td>{{ foundCase.problemDescription }}</td>
-      <td>{{ foundCase.creationDate | date: 'dd-MM-yyyy' }}</td>
-      <td>
-        {{ foundCase.expectedDeliveryDate
-        ? (foundCase.expectedDeliveryDate | date: 'dd-MM-yyyy')
-        : 'Ikke angivet' }}
-      </td>
-      <td>{{ foundCase.priority }}</td>
-      <td>{{ foundCase.assignedTechnician }}</td>
-    </tr>
-  </table>
-  <h2>Status</h2>
-  <div class="progress-container">
-    <div class="status-row">
+<div class="case-detail-container" *ngIf="foundCase; else notFound">
+  <div class="header">
+    <h3>SAG FOR {{ foundCase.id }}</h3>
+    <button class="back-button" (click)="goBack()">Tilbage</button>
+  </div>
+
+  <div class="content">
+    <!-- Info om sag -->
+    <div class="info-box">
+      <h2>INFO OM SAG</h2>
+      <table>
+        <tr>
+          <th>Navn + mail</th>
+          <th>Udstyrstype</th>
+          <th>Problem</th>
+          <th>Oprettet</th>
+          <th>Forventet Levering</th>
+          <th>Prioritet</th>
+          <th>Tildelt Tekniker</th>
+        </tr>
+        <tr>
+          <td>{{ foundCase.customerName }}</td>
+          <td>{{ foundCase.equipmentType }}</td>
+          <td>{{ foundCase.problemDescription }}</td>
+          <td>{{ foundCase.creationDate | date: 'dd-MM-yyyy' }}</td>
+          <td>
+            {{ foundCase.expectedDeliveryDate
+            ? (foundCase.expectedDeliveryDate | date: 'dd-MM-yyyy')
+            : 'Ikke angivet' }}
+          </td>
+          <td>{{ foundCase.priority }}</td>
+          <td>{{ foundCase.assignedTechnician }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Chat med teknikker -->
+    <div class="chat-box">
+      <h2>CHAT MED TEKNIKKER</h2>
+      <p>Chat funktionalitet vises her...</p>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-section">
+    <div class="progress-container">
       <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
       <div class="status-bar">
         <div
@@ -42,5 +56,6 @@
 </div>
 
 <ng-template #notFound>
+  <p *ngIf="caseStatusMessage">{{ caseStatusMessage }}</p>
   <p>Sagen blev ikke fundet.</p>
 </ng-template>

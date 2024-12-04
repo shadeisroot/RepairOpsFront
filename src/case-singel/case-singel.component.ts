@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {DatePipe, NgIf, NgStyle} from "@angular/common";
 import {Case, CaseService} from '../Services/case.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-case-singel',
@@ -27,25 +27,43 @@ export class CaseSingelComponent {
   //index nummeret for status
   currentStatusIndex: number = 0;
 
-  constructor(private route: ActivatedRoute, private caseService: CaseService) {}
+  caseStatusMessage: string | null = null;
+
+  constructor(private route: ActivatedRoute, private caseService: CaseService, private router: Router) {}
 
   ngOnInit(): void {
-    //henter id fra url
+    // henter id fra url
     const id = this.route.snapshot.paramMap.get('id');
-    //tjekker om der er et id i url
+    // tjekker om der er et id i url og henter sagen
     if (id) {
-      this.caseService.getCase(id).subscribe({
-        //hvis data hentes, sker dette
-        next: (data) => {
-          //gemmer data i foundcase for at vise dem
-          this.foundCase = data;
-          //finder status indeks i statuts array
-          this.currentStatusIndex = this.statuses.indexOf(data.status);
-        },
-        //error
-        error: (err) => console.error('Fejl ved hentning af sag:', err)
-      });
+      this.selectCase(id);
     }
+  }
+
+  // Metode til at hente en sag baseret på ID
+  selectCase(id: string): void {
+    this.caseService.getCase(id).subscribe({
+      // Hvis data hentes korrekt
+      next: (data) => {
+        this.foundCase = data; // gemmer data for at vise
+        this.caseStatusMessage = null; // nulstiller besked
+        this.currentStatusIndex = this.statuses.indexOf(data.status); // finder status
+      },
+      // Hvis der opstår fejl
+      error: (err) => {
+        if (err.status === 404) {
+          console.warn('Sagen blev afsluttet.');
+          this.foundCase = null; // nulstiller data
+          this.caseStatusMessage = 'Sagen er afsluttet.'; // besked om afsluttet sag
+        } else {
+          console.error('Fejl ved hentning af sag:', err);
+        }
+      }
+    });
+  }
+
+  goBack(): void {
+    this.router.navigate(['frontpage']); // Navigerer til forsiden
   }
 
 }

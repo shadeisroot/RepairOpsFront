@@ -1,72 +1,89 @@
-/* Tabelstil: Bredden justeres for flere kolonner */
-.cases-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  table-layout: auto; /* Tillad justerbar kolonnebredde */
+/* Container for hele listen */
+.cases-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 16px;
 }
 
-/* Header styling */
-.cases-table th {
-  background-color: #f4f4f4;
-  text-align: left;
-  padding: 12px;
-  border-bottom: 2px solid #ddd;
-  font-size: 14px;
+/* Overskrift styling */
+.cases-header {
+  text-align: center;
+  font-size: 24px;
   color: #333;
+  margin-bottom: 20px;
 }
 
-/* Række-stil */
-.case-row {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 16px;
-  display: block;
-  padding: 16px;
-  border-radius: 8px;
+/* Individuelle sagsbokse */
+.case-box {
+  background: #ffffff;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
 }
 
-/* Responsiv stil for individuelle celler */
-.case-row td {
-  display: block;
-  padding: 8px 0;
+/* Sag ID som overskrift */
+.case-id {
+  font-size: 18px;
+  color: #007bff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+/* Detaljeret info om sag */
+.case-details p {
+  margin: 5px 0;
   font-size: 14px;
-  color: #333;
-}
-
-/* Brug data-label som overskrift */
-.case-row td::before {
-  content: attr(data-label);
-  font-weight: bold;
-  display: inline-block;
-  width: 140px; /* Justerbar bredde for labels */
   color: #555;
 }
 
-/* Fjern standard tabelstil */
-.case-row td {
-  border-bottom: none;
+.case-details p strong {
+  color: #333;
 }
 
-/* Skift til tabel-layout på store skærme */
-@media (min-width: 768px) {
-  .case-row {
-    display: table-row;
-    box-shadow: none;
-    margin-bottom: 0;
-    padding: 0;
-    border: none;
+/* Actions-knapper */
+.case-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.case-actions button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.case-actions button:hover {
+  opacity: 0.9;
+}
+
+/* Afslut knap specifik styling */
+.afslut-knap {
+  background-color: #dc3545;
+  color: white;
+}
+
+.afslut-knap:hover {
+  background-color: #b02a37;
+}
+
+/* Responsiv tilpasning */
+@media (max-width: 600px) {
+  .case-box {
+    padding: 15px;
   }
 
-  .case-row td {
-    display: table-cell;
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
+  .case-actions {
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .cases-table th,
-  .case-row td {
-    text-align: left;
+  .case-actions button {
+    width: 100%;
   }
 }
