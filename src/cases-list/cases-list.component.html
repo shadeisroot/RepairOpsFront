@@ -1,5 +1,6 @@
 <div class="cases-container" *ngIf="cases.length > 0; else noCases">
   <h2 class="cases-header">Liste over sager</h2>
+  <button class="back-button" (click)="goBack()">Log ud</button>
   <div class="case-box" *ngFor="let caseItem of cases">
     <h3 class="case-id">Sag ID: {{ caseItem.id }}</h3>
     <div class="case-details">

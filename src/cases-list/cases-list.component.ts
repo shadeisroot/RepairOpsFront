@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Case, CaseService} from '../Services/case.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-cases-list',
@@ -23,7 +24,8 @@ export class CasesListComponent implements OnInit{
   ];
 
 
-  constructor(private caseService: CaseService) {}
+
+  constructor(private caseService: CaseService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadCases();
@@ -84,5 +86,9 @@ export class CasesListComponent implements OnInit{
         error: err => console.error('Fejl ved afslutning af sag:', err)
       })
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['login']); // log ud route
   }
 }
