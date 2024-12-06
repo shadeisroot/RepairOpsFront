@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Case, CaseService} from '../Services/case.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {Chat, ChatService} from '../Services/chat.service';
 
 @Component({
   selector: 'app-cases-list',
@@ -15,6 +16,8 @@ import {FormsModule} from '@angular/forms';
 })
 export class CasesListComponent implements OnInit{
   cases: Case[] = [];
+  selectedCaseId: string | null = null;
+  chatMessages: Chat[] = [];
   statusOptions: string[] = [
     'Modtaget',
     'Under reparation',
@@ -23,7 +26,7 @@ export class CasesListComponent implements OnInit{
   ];
 
 
-  constructor(private caseService: CaseService) {}
+  constructor(private caseService: CaseService, private chatService: ChatService) {}
 
   ngOnInit(): void {
     this.loadCases();
@@ -73,4 +76,13 @@ export class CasesListComponent implements OnInit{
     this.loadCases();
     caseItem.isEditing = false;
   }
+
+  viewChat(caseId: string): void {
+    this.selectedCaseId = caseId;
+    this.chatService.getChatMessages(caseId).subscribe({
+      next: (messages) => (this.chatMessages = messages),
+      error: (err) => console.error('Fejl ved hentning af beskeder:', err)
+    });
+  }
+
 }

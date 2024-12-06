@@ -40,6 +40,18 @@
     </tr>
     </tbody>
   </table>
+  <div class="case-chat" *ngFor="let case of cases">
+    <h3>{{ case.id }}</h3>
+    <button (click)="viewChat(case.id)">Vis chat</button>
+  </div>
+
+  <div *ngIf="selectedCaseId">
+    <h2>Chat for sag {{ selectedCaseId }}</h2>
+    <div *ngFor="let message of chatMessages">
+      <p>{{ message.sender }}: {{ message.message }}</p>
+      <span>{{ message.timestamp | date: 'short' }}</span>
+    </div>
+  </div>
 </div>
 
 <ng-template #noCases>

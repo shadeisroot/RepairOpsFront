@@ -27,6 +27,26 @@
       <td>{{ foundCase.assignedTechnician }}</td>
     </tr>
   </table>
+
+  <div class="chat-box">
+    <h2>CHAT MED TEKNIKKER</h2>
+
+    <!-- Liste over chatbeskeder -->
+    <div class="chat-container">
+      <div *ngFor="let msg of chatMessages" class="chat-message">
+        <strong>{{ msg.sender }}:</strong> {{ msg.message }}
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input
+        type="text"
+        [(ngModel)]="newMessage"
+        placeholder="Skriv en besked..."
+        (keydown.enter)="sendMessage()" />
+      <button (click)="sendMessage()">Send</button>
+    </div>
+
   <h2>Status</h2>
   <div class="progress-container">
     <div class="status-row">
@@ -38,6 +58,7 @@
         ></div>
       </div>
     </div>
+  </div>
   </div>
 </div>
 

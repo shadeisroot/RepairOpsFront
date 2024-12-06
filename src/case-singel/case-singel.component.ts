@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import {DatePipe, NgIf, NgStyle} from "@angular/common";
+import {CommonModule, DatePipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {Case, CaseService} from '../Services/case.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
+import {FormsModule} from '@angular/forms';
+import {Chat, ChatService} from '../Services/chat.service';
 
 @Component({
   selector: 'app-case-singel',
@@ -9,12 +12,17 @@ import {ActivatedRoute} from '@angular/router';
   imports: [
     DatePipe,
     NgIf,
-    NgStyle
+    NgStyle,
+    FormsModule,
+    NgClass,
+    CommonModule
   ],
   templateUrl: './case-singel.component.html',
   styleUrl: './case-singel.component.css'
 })
 export class CaseSingelComponent {
+  chatMessages: Chat[] = [];
+  newMessage: string = '';
   //case
   foundCase: Case | null = null;
   //status array
@@ -27,25 +35,80 @@ export class CaseSingelComponent {
   //index nummeret for status
   currentStatusIndex: number = 0;
 
-  constructor(private route: ActivatedRoute, private caseService: CaseService) {}
+  constructor(private route: ActivatedRoute,
+              private caseService: CaseService,
+              private chatService: ChatService,
+              private router: Router) {}
 
   ngOnInit(): void {
-    //henter id fra url
+    // Hent ID fra URL
     const id = this.route.snapshot.paramMap.get('id');
-    //tjekker om der er et id i url
+
+    // Tjek om der er et ID i URL'en
     if (id) {
+      // Hent sagsoplysninger
       this.caseService.getCase(id).subscribe({
-        //hvis data hentes, sker dette
         next: (data) => {
-          //gemmer data i foundcase for at vise dem
-          this.foundCase = data;
-          //finder status indeks i statuts array
-          this.currentStatusIndex = this.statuses.indexOf(data.status);
+          this.foundCase = data; // Gem sagsdata
+          this.currentStatusIndex = this.statuses.indexOf(data.status); // Find status-indeks
+
+          // Hent chatbeskeder for denne sag
+          this.chatService.getChatMessages(id).subscribe({
+            next: (messages) => {
+              this.chatMessages = messages; // Gem chatbeskeder
+            },
+            error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err)
+          });
         },
-        //error
-        error: (err) => console.error('Fejl ved hentning af sag:', err)
+        error: (err) => console.error('Fejl ved hentning af sag:', err),
       });
     }
   }
 
+  loadChatMessages(caseId: string): void {
+    this.chatService.getChatMessages(caseId).subscribe({
+      next: (messages) => (this.chatMessages = messages),
+      error: (err) => console.error('Fejl ved hentning af beskeder:', err)
+    });
+  }
+
+  sendMessage(): void {
+    if (!this.newMessage.trim() || !this.foundCase) {
+      console.error('Besked eller sag mangler!');
+      return; // Undgå at sende tomme beskeder
+    }
+
+    // Opret en ny besked
+    const newChatMessage: Chat = {
+      id: this.generateGuid(), // Generer et unikt GUID
+      caseId: this.foundCase.id, // Tilknytning til sagen
+      sender: 'Kunde', // Statisk for kunden
+      message: this.newMessage.trim(), // Indholdet af beskeden
+      timestamp: new Date().toISOString(), // Generér tidsstemplet
+    };
+
+    console.log('Sender chat:', newChatMessage);
+
+    // Send beskeden via ChatService
+    this.chatService.sendMessage(newChatMessage).subscribe({
+      next: (sentMessage) => {
+        console.log('Besked sendt:', sentMessage);
+        this.chatMessages.push(sentMessage); // Tilføj til lokal liste
+        this.newMessage = ''; // Ryd inputfeltet
+      },
+      error: (err) => {
+        console.error('Fejl ved afsendelse af besked:', err.error);
+        alert('Kunne ikke sende besked. Prøv igen senere.');
+      },
+    });
+  }
+
+// GUID-generator har chatgpt lavet for os ( bruges til at
+  private generateGuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
 }
