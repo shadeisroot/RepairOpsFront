@@ -62,10 +62,84 @@
   opacity: 0.9;
 }
 
-/* Afslut knap specifik styling */
+/* Case box styling */
+.case-box {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  position: relative; /* For at placere chat-popup relativt */
+}
+
+/* Markér den valgte boks */
+.case-box.selected {
+  border-color: #007bff;
+}
+
+/* Chat-popup styling */
+.chat-popup {
+  position: absolute;
+  top: 0;
+  right: -320px; /* Placér chat-popup til højre */
+  width: 300px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  z-index: 10;
+}
+
+.chat-popup h4 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.chat-messages {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: #0056b3;
+}
+
+/* Afslut knap styling */
 .afslut-knap {
   background-color: #dc3545;
   color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .afslut-knap:hover {
@@ -88,17 +162,9 @@
   }
 }
 
-.back-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.not-found {
+  text-align: center;
   font-size: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.back-button:hover {
-  background-color: #0056b3;
+  color: #ff0000;
+  margin-top: 20px;
 }

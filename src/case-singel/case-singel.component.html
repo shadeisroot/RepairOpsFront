@@ -1,67 +1,68 @@
-<!-- Vis fundet sag -->
-<div *ngIf="foundCase; else notFound">
-  <h3>Fundet Sag</h3>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Kunde</th>
-      <th>Udstyrstype</th>
-      <th>Problem</th>
-      <th>Oprettet</th>
-      <th>Forventet Levering</th>
-      <th>Prioritet</th>
-      <th>Tildelt Tekniker</th>
-    </tr>
-    <tr>
-      <td>{{ foundCase.id }}</td>
-      <td>{{ foundCase.customerName }}</td>
-      <td>{{ foundCase.equipmentType }}</td>
-      <td>{{ foundCase.problemDescription }}</td>
-      <td>{{ foundCase.creationDate | date: 'dd-MM-yyyy' }}</td>
-      <td>
-        {{ foundCase.expectedDeliveryDate
-        ? (foundCase.expectedDeliveryDate | date: 'dd-MM-yyyy')
-        : 'Ikke angivet' }}
-      </td>
-      <td>{{ foundCase.priority }}</td>
-      <td>{{ foundCase.assignedTechnician }}</td>
-    </tr>
-  </table>
+<div class="case-container">
+  <!-- Check om sagen findes -->
+  <ng-container *ngIf="foundCase; else notFound">
+    <!-- Header med sagstitel og tilbageknap -->
+    <div class="case-header">
+      <h1>SAG FOR {{ foundCase.id }}</h1>
+      <button class="back-button" (click)="goBack()">Tilbage</button>
+    </div>
 
-  <div class="chat-box">
-    <h2>CHAT MED TEKNIKKER</h2>
+    <!-- Indhold opdelt i to kolonner -->
+    <div class="case-content">
+      <!-- Info om sag -->
+      <div class="case-info">
+        <h2>INFO OM SAG</h2>
+        <p><strong>Kunde:</strong> {{ foundCase.customerName }}</p>
+        <p><strong>Mail:</strong> {{ foundCase.mail }}</p>
+        <p><strong>Udstyr:</strong> {{ foundCase.equipmentType }}</p>
+        <p><strong>Problem:</strong> {{ foundCase.problemDescription }}</p>
+        <p><strong>Oprettet:</strong> {{ foundCase.creationDate | date }}</p>
+        <p><strong>Forventet levering:</strong> {{ foundCase.expectedDeliveryDate | date }}</p>
+        <p><strong>Prioritet:</strong> {{ foundCase.priority }}</p>
+        <p><strong>Tekniker:</strong> {{ foundCase.assignedTechnician }}</p>
+      </div>
 
-    <!-- Liste over chatbeskeder -->
-    <div class="chat-container">
-      <div *ngFor="let msg of chatMessages" class="chat-message">
-        <strong>{{ msg.sender }}:</strong> {{ msg.message }}
+      <!-- Chat med teknikker -->
+      <div class="case-chat">
+        <h2>CHAT MED TEKNIKKER</h2>
+        <div class="chat-messages">
+          <div *ngFor="let message of chatMessages" class="chat-message">
+            <strong>{{ message.sender }}:</strong> {{ message.message }}
+          </div>
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            [(ngModel)]="newMessage"
+            placeholder="Skriv en besked..."
+            (keydown.enter)="sendMessage()" />
+          <button (click)="sendMessage()">Send</button>
+        </div>
       </div>
     </div>
 
-    <div class="chat-input">
-      <input
-        type="text"
-        [(ngModel)]="newMessage"
-        placeholder="Skriv en besked..."
-        (keydown.enter)="sendMessage()" />
-      <button (click)="sendMessage()">Send</button>
-    </div>
-
-  <h2>Status</h2>
-  <div class="progress-container">
-    <div class="status-row">
-      <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
-      <div class="status-bar">
-        <div
-          class="status-fill"
-          [ngStyle]="{ width: ((currentStatusIndex + 1) / statuses.length) * 100 + '%' }"
-        ></div>
+    <!-- Statusbar -->
+    <div class="case-status-bar">
+      <h2>Status</h2>
+      <div class="progress-container">
+        <div class="status-row">
+          <span class="status-label">{{ statuses[currentStatusIndex] }}</span>
+          <div class="status-bar">
+            <div
+              class="status-fill"
+              [ngStyle]="{ width: ((currentStatusIndex + 1) / statuses.length) * 100 + '%' }"
+            ></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
+  </ng-container>
+
+  <!-- Fallback template hvis sagen ikke findes -->
+  <ng-template #notFound>
+    <div class="not-found">
+      <p>Sagen blev ikke fundet.</p>
+      <button class="back-button" (click)="goBack()">Tilbage</button>
+    </div>
+  </ng-template>
 </div>
-
-<ng-template #notFound>
-  <p>Sagen blev ikke fundet.</p>
-</ng-template>
