@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Chat} from './chat.service';
 
 //interface som definerer strukturen for en case
 export interface Case{
@@ -14,6 +15,8 @@ export interface Case{
   assignedTechnician: string;
   status: string;
   isEditing?: boolean;
+  mail: string;
+  chatMessages: Chat[];
 }
 
 export interface User {

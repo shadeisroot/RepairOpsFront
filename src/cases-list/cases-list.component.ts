@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Case, CaseService} from '../Services/case.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Chat, ChatService} from '../Services/chat.service';
 
 @Component({
   selector: 'app-cases-list',
@@ -16,6 +16,8 @@ import {Router} from '@angular/router';
 })
 export class CasesListComponent implements OnInit{
   cases: Case[] = [];
+  selectedCaseId: string | null = null;
+  chatMessages: Chat[] = [];
   statusOptions: string[] = [
     'Modtaget',
     'Under reparation',
@@ -24,8 +26,7 @@ export class CasesListComponent implements OnInit{
   ];
 
 
-
-  constructor(private caseService: CaseService, private router: Router) {}
+  constructor(private caseService: CaseService, private chatService: ChatService) {}
 
   ngOnInit(): void {
     this.loadCases();
@@ -76,19 +77,12 @@ export class CasesListComponent implements OnInit{
     caseItem.isEditing = false;
   }
 
-  deleteCase(caseId: string) {
-    if (confirm('Er du sikker på at du vil afslutte sag')) {
-      this.caseService.deleteCase(caseId).subscribe({
-        next: () => {
-          console.log('Sag blev afsluttet:', caseId);
-          this.cases = this.cases.filter(c => c.id !== caseId);
-        },
-        error: err => console.error('Fejl ved afslutning af sag:', err)
-      })
-    }
+  viewChat(caseId: string): void {
+    this.selectedCaseId = caseId;
+    this.chatService.getChatMessages(caseId).subscribe({
+      next: (messages) => (this.chatMessages = messages),
+      error: (err) => console.error('Fejl ved hentning af beskeder:', err)
+    });
   }
 
-  goBack(): void {
-    this.router.navigate(['login']); // log ud route
-  }
 }
