@@ -1,59 +1,61 @@
-<div *ngIf="cases.length > 0; else noCases">
-  <h2>Liste over sager</h2>
-  <table class="cases-table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Navn</th>
-      <th>Udstyr</th>
-      <th>Beskrivelse</th>
-      <th>Oprettet</th>
-      <th>Forventet Levering</th>
-      <th>Prioritet</th>
-      <th>Tekniker</th>
-      <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let caseItem of cases" class="case-row">
-      <td>{{ caseItem.id }}</td>
-      <td>{{ caseItem.customerName }}</td>
-      <td>{{ caseItem.equipmentType }}</td>
-      <td>{{ caseItem.problemDescription }}</td>
-      <td>{{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</td>
-      <td>{{ caseItem.expectedDeliveryDate ? (caseItem.expectedDeliveryDate | date: 'dd-MM-yyyy') : 'Ikke angivet' }}</td>
-      <td>{{ caseItem.priority }}</td>
-      <td>{{ caseItem.assignedTechnician }}</td>
-      <td>
-        <!-- Status vises eller redigeres -->
-        <span *ngIf="!caseItem.isEditing">{{ caseItem.status }}</span>
-        <select *ngIf="caseItem.isEditing" [(ngModel)]="caseItem.status">
-          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
-        </select>
-      </td>
-      <td>
-        <!-- Handlinger: Rediger, Gem, Annuller -->
+<div class="cases-container">
+  <h2 class="cases-header">Liste over sager</h2>
+
+  <!-- Hvis der er sager -->
+  <div *ngIf="cases.length > 0; else noCases">
+    <div class="case-box" *ngFor="let caseItem of cases">
+      <h3 class="case-id">Sag: {{ caseItem.id }}</h3>
+      <div class="case-details">
+        <p><strong>Kunde:</strong> {{ caseItem.customerName }}</p>
+        <p><strong>Udstyr:</strong> {{ caseItem.equipmentType }}</p>
+        <p><strong>Beskrivelse:</strong> {{ caseItem.problemDescription }}</p>
+        <p><strong>Oprettet:</strong> {{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</p>
+        <p>
+          <strong>Forventet Levering:</strong>
+          {{ caseItem.expectedDeliveryDate ? (caseItem.expectedDeliveryDate | date: 'dd-MM-yyyy') : 'Ikke angivet' }}
+        </p>
+        <p><strong>Prioritet:</strong> {{ caseItem.priority }}</p>
+        <p><strong>Tekniker:</strong> {{ caseItem.assignedTechnician }}</p>
+        <p><strong>Status:</strong>
+          <span *ngIf="!caseItem.isEditing">{{ caseItem.status }}</span>
+          <select *ngIf="caseItem.isEditing" [(ngModel)]="caseItem.status">
+            <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+          </select>
+        </p>
+      </div>
+      <div class="case-actions">
+        <!-- Handlinger -->
         <button *ngIf="!caseItem.isEditing" (click)="editCase(caseItem)">Rediger</button>
         <button *ngIf="caseItem.isEditing" (click)="saveCase(caseItem)">Gem</button>
         <button *ngIf="caseItem.isEditing" (click)="cancelEdit(caseItem)">Annuller</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <div class="case-chat" *ngFor="let case of cases">
-    <h3>{{ case.id }}</h3>
-    <button (click)="viewChat(case.id)">Vis chat</button>
-  </div>
-
-  <div *ngIf="selectedCaseId">
-    <h2>Chat for sag {{ selectedCaseId }}</h2>
-    <div *ngFor="let message of chatMessages">
-      <p>{{ message.sender }}: {{ message.message }}</p>
-      <span>{{ message.timestamp | date: 'short' }}</span>
+        <button class="afslut-knap" (click)="deleteCase(caseItem.id)">Afslut Sag</button>
+        <button class="chat-button" (click)="viewChat(caseItem.id)">Vis Chat</button>
+      </div>
+      <!-- Chat-vindue til højre -->
+      <div class="chat-popup" *ngIf="selectedCaseId === caseItem.id">
+        <h4>Chat for Sag: {{ caseItem.id }}</h4>
+        <div class="chat-messages">
+          <div *ngFor="let message of chatMessages">
+            <p><strong>{{ message.sender }}:</strong> {{ message.message }}</p>
+            <span>{{ message.timestamp | date: 'short' }}</span>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            [(ngModel)]="newMessage"
+            placeholder="Skriv en besked..."
+            (keydown.enter)="sendMessage(caseItem.id)" />
+          <button (click)="sendMessage(caseItem.id)">Send</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<ng-template #noCases>
-  <p>Ingen sager fundet.</p>
-</ng-template>
+  <!-- Hvis der ikke er nogen sager -->
+  <ng-template #noCases>
+    <div class="not-found">
+      <p>Ingen sager fundet.</p>
+    </div>
+  </ng-template>
+</div>

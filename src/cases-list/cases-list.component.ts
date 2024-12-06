@@ -3,6 +3,7 @@ import {Case, CaseService} from '../Services/case.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Chat, ChatService} from '../Services/chat.service';
+import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
 
 @Component({
   selector: 'app-cases-list',
@@ -18,6 +19,7 @@ export class CasesListComponent implements OnInit{
   cases: Case[] = [];
   selectedCaseId: string | null = null;
   chatMessages: Chat[] = [];
+  newMessage: string = '';
   statusOptions: string[] = [
     'Modtaget',
     'Under reparation',
@@ -78,11 +80,57 @@ export class CasesListComponent implements OnInit{
   }
 
   viewChat(caseId: string): void {
-    this.selectedCaseId = caseId;
-    this.chatService.getChatMessages(caseId).subscribe({
-      next: (messages) => (this.chatMessages = messages),
-      error: (err) => console.error('Fejl ved hentning af beskeder:', err)
+    this.selectedCaseId = this.selectedCaseId === caseId ? null : caseId; // Toggle chatvinduet
+    if (this.selectedCaseId) {
+      this.chatService.getChatMessages(caseId).subscribe({
+        next: (messages) => (this.chatMessages = messages),
+        error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err),
+      });
+    }
+  }
+
+  // Send en besked
+  sendMessage(caseId: string): void {
+    if (!this.newMessage.trim()) return;
+
+    const newChat: Chat = {
+      id: this.generateGuid(),
+      caseId,
+      sender: 'Tekniker',
+      message: this.newMessage.trim(),
+      timestamp: new Date().toISOString(),
+    };
+
+    this.chatService.sendMessage(newChat).subscribe({
+      next: (sentMessage) => {
+        this.chatMessages.push(sentMessage); // Tilføj beskeden lokalt
+        this.newMessage = ''; // Ryd inputfeltet
+      },
+      error: (err) => console.error('Fejl ved afsendelse af besked:', err),
     });
+  }
+
+  // GUID-generator har chatgpt lavet for os ( bruges til at lave guid)
+  private generateGuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  // Slet en sag
+  deleteCase(caseId: string): void {
+    if (confirm('Er du sikker på, at du vil afslutte denne sag?')) {
+      this.caseService.deleteCase(caseId).subscribe({
+        next: () => {
+          // Fjern sagen fra listen lokalt
+          this.cases = this.cases.filter((c) => c.id !== caseId);
+          alert('Sagen er afsluttet.');
+        },
+        error: (err) => console.error('Fejl ved afslutning af sag:', err),
+      });
+    }
   }
 
 }
