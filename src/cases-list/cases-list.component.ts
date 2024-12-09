@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Case, CaseService} from '../Services/case.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -15,7 +15,7 @@ import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
   templateUrl: './cases-list.component.html',
   styleUrl: './cases-list.component.css'
 })
-export class CasesListComponent implements OnInit{
+export class CasesListComponent implements OnInit, OnDestroy{
   cases: Case[] = [];
   selectedCaseId: string | null = null;
   chatMessages: Chat[] = [];
@@ -27,11 +27,25 @@ export class CasesListComponent implements OnInit{
     'Repareret og klar til afhentning'
   ];
 
+  private chatRefreshInterval: any;
+
 
   constructor(private caseService: CaseService, private chatService: ChatService) {}
 
   ngOnInit(): void {
     this.loadCases();
+  }
+
+  ngOnDestroy(): void {
+    // Ryd intervallet, når komponenten destrueres
+    this.clearChatRefreshInterval();
+  }
+
+  private clearChatRefreshInterval(): void {
+    if (this.chatRefreshInterval) {
+      clearInterval(this.chatRefreshInterval);
+      this.chatRefreshInterval = null;
+    }
   }
 
   loadCases(): void {
@@ -80,13 +94,33 @@ export class CasesListComponent implements OnInit{
   }
 
   viewChat(caseId: string): void {
-    this.selectedCaseId = this.selectedCaseId === caseId ? null : caseId; // Toggle chatvinduet
-    if (this.selectedCaseId) {
-      this.chatService.getChatMessages(caseId).subscribe({
-        next: (messages) => (this.chatMessages = messages),
-        error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err),
-      });
+    if (this.selectedCaseId === caseId) {
+      // Hvis chatvinduet allerede vises, luk det
+      this.selectedCaseId = null;
+      this.clearChatRefreshInterval();
+    } else {
+      // Vis chat for en ny sag
+      this.selectedCaseId = caseId;
+      this.clearChatRefreshInterval(); // Sørg for, at tidligere intervaller stoppes
+      this.loadChatMessages(caseId);
+
+      // Start interval til at opdatere chatbeskeder
+      this.chatRefreshInterval = setInterval(() => {
+        this.loadChatMessages(caseId);
+      }, 1500); // Opdater hvert 1.5 sekund
     }
+  }
+
+  loadChatMessages(caseId: string): void {
+    this.chatService.getChatMessages(caseId).subscribe({
+      next: (messages) => {
+        // Sorter beskeder efter tid (ældste først)
+        this.chatMessages = messages.sort((a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+      },
+      error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err),
+    });
   }
 
   // Send en besked

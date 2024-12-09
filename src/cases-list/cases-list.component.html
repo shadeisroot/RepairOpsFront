@@ -35,9 +35,11 @@
       <div class="chat-popup" *ngIf="selectedCaseId === caseItem.id">
         <h4>Chat for Sag: {{ caseItem.id }}</h4>
         <div class="chat-messages">
-          <div *ngFor="let message of chatMessages">
-            <p><strong>{{ message.sender }}:</strong> {{ message.message }}</p>
-            <span>{{ message.timestamp | date: 'short' }}</span>
+          <div *ngFor="let message of chatMessages" class="chat-message"
+               [ngClass]="{ 'from-customer': message.sender === 'Kunde', 'from-technician': message.sender !== 'Kunde' }">
+            <span class="sender-name">{{ message.sender }}</span>
+            <p>{{ message.message }}</p>
+            <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
           </div>
         </div>
         <div class="chat-input">

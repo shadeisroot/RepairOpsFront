@@ -48,42 +48,97 @@
 }
 
 /* Chat messages */
+.case-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+}
+
 .chat-messages {
+  flex-grow: 1;
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #ccc;
   padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   background-color: #fff;
-  margin-bottom: 10px;
 }
 
 .chat-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%; /* Begrænser bredden */
   margin-bottom: 10px;
+  word-wrap: break-word; /* Gør det muligt for lange ord at brydes */
+}
+
+.sender-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.chat-message.from-customer {
+  align-self: flex-end; /* Juster til højre */
+  background-color: #4c6ef5; /* Blå farve */
+  color: white;
+  border-radius: 12px 12px 0 12px;
+  padding: 10px;
+  text-align: left;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chat-message.from-technician {
+  align-self: flex-start; /* Juster til venstre */
+  background-color: #495057; /* Grå farve */
+  color: white;
+  border-radius: 12px 12px 12px 0;
+  padding: 10px;
+  text-align: left;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.message-content {
+  display: block;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7); /* Lysere farve for tid */
+  margin-top: 4px;
+  text-align: right; /* Sørger for, at tidsstemplet er højrejusteret */
 }
 
 .chat-input {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .chat-input input {
-  flex: 1;
+  flex-grow: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .chat-input button {
   padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
+  background-color: #4c6ef5;
   color: white;
-  border-radius: 5px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .chat-input button:hover {
-  background-color: #0056b3;
+  background-color: #364fc7;
 }
 
 /* Status bar styling */

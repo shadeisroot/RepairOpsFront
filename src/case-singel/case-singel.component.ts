@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {CommonModule, DatePipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {Case, CaseService} from '../Services/case.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,6 +21,8 @@ import {Chat, ChatService} from '../Services/chat.service';
   styleUrl: './case-singel.component.css'
 })
 export class CaseSingelComponent {
+  @ViewChild('chatContainer') chatContainer!: ElementRef;
+
   chatMessages: Chat[] = [];
   newMessage: string = '';
   //case
@@ -34,6 +36,7 @@ export class CaseSingelComponent {
   ];
   //index nummeret for status
   currentStatusIndex: number = 0;
+  chatRefreshInterval: any;
 
   constructor(private route: ActivatedRoute,
               private caseService: CaseService,
@@ -44,7 +47,6 @@ export class CaseSingelComponent {
     // Hent ID fra URL
     const id = this.route.snapshot.paramMap.get('id');
 
-    // Tjek om der er et ID i URL'en
     if (id) {
       // Hent sagsoplysninger
       this.caseService.getCase(id).subscribe({
@@ -52,23 +54,36 @@ export class CaseSingelComponent {
           this.foundCase = data; // Gem sagsdata
           this.currentStatusIndex = this.statuses.indexOf(data.status); // Find status-indeks
 
-          // Hent chatbeskeder for denne sag
-          this.chatService.getChatMessages(id).subscribe({
-            next: (messages) => {
-              this.chatMessages = messages; // Gem chatbeskeder
-            },
-            error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err)
-          });
+          // Hent chatbeskeder første gang
+          this.loadChatMessages(id);
+
+          // Start interval til at opdatere chatbeskeder
+          this.chatRefreshInterval = setInterval(() => {
+            this.loadChatMessages(id);
+          }, 3000); // Opdater hvert 3. sekund
         },
         error: (err) => console.error('Fejl ved hentning af sag:', err),
       });
     }
   }
 
+  ngOnDestroy(): void {
+    // Stop intervallet, når komponenten destrueres
+    if (this.chatRefreshInterval) {
+      clearInterval(this.chatRefreshInterval);
+    }
+  }
+
+
   loadChatMessages(caseId: string): void {
     this.chatService.getChatMessages(caseId).subscribe({
-      next: (messages) => (this.chatMessages = messages),
-      error: (err) => console.error('Fejl ved hentning af beskeder:', err)
+      next: (messages) => {
+        // Sorter beskederne efter timestamp
+        this.chatMessages = messages.sort((a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+      },
+      error: (err) => console.error('Fejl ved hentning af beskeder:', err),
     });
   }
 
@@ -92,8 +107,10 @@ export class CaseSingelComponent {
     // Send beskeden via ChatService
     this.chatService.sendMessage(newChatMessage).subscribe({
       next: (sentMessage) => {
-        console.log('Besked sendt:', sentMessage);
-        this.chatMessages.push(sentMessage); // Tilføj til lokal liste
+        // Tilføj beskeden og sorter listen igen
+        this.chatMessages = [...this.chatMessages, sentMessage].sort((a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
         this.newMessage = ''; // Ryd inputfeltet
       },
       error: (err) => {
@@ -103,7 +120,8 @@ export class CaseSingelComponent {
     });
   }
 
-// GUID-generator har chatgpt lavet for os ( bruges til at lave guid)
+
+  // GUID-generator har chatgpt lavet for os ( bruges til at lave guid)
   private generateGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;
