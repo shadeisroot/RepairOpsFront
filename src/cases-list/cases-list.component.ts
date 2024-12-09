@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Chat, ChatService} from '../Services/chat.service';
 import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-cases-list',
@@ -30,7 +31,7 @@ export class CasesListComponent implements OnInit, OnDestroy{
   private chatRefreshInterval: any;
 
 
-  constructor(private caseService: CaseService, private chatService: ChatService) {}
+  constructor(private caseService: CaseService, private chatService: ChatService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadCases();
@@ -167,4 +168,7 @@ export class CasesListComponent implements OnInit, OnDestroy{
     }
   }
 
+  goMake() {
+    this.router.navigate(['/case']);
+  }
 }

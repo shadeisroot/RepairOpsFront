@@ -1,12 +1,13 @@
 <div class="cases-container">
   <h2 class="cases-header">Liste over sager</h2>
-
+  <button class="create-case-button" (click)="goMake()">Opret Sag</button>
   <!-- Hvis der er sager -->
   <div *ngIf="cases.length > 0; else noCases">
     <div class="case-box" *ngFor="let caseItem of cases">
       <h3 class="case-id">Sag: {{ caseItem.id }}</h3>
       <div class="case-details">
-        <p><strong>Kunde:</strong> {{ caseItem.customerName }}</p>
+        <p><strong>Navn:</strong> {{ caseItem.customerName }}</p>
+        <p><strong>Mail:</strong> {{ caseItem.mail }}</p>
         <p><strong>Udstyr:</strong> {{ caseItem.equipmentType }}</p>
         <p><strong>Beskrivelse:</strong> {{ caseItem.problemDescription }}</p>
         <p><strong>Oprettet:</strong> {{ caseItem.creationDate | date: 'dd-MM-yyyy' }}</p>
