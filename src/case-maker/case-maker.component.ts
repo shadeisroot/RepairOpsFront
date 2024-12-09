@@ -13,6 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatNativeDateModule} from '@angular/material/core';
 import {Case, CaseService, User} from '../Services/case.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-case-maker',
@@ -45,7 +46,8 @@ export class CaseMakerComponent implements OnInit{
     expectedDeliveryDate: '',
     priority: 'Lav',
     assignedTechnician: '',
-    status: 'Modtaget'
+    status: 'Modtaget',
+    mail: ''
   };
   //formatere dagen i dag til string
   currentDate: string = new Date().toISOString();
@@ -62,7 +64,7 @@ export class CaseMakerComponent implements OnInit{
     'Repareret og klar til afhentning'
   ];
 
-  constructor(private caseService: CaseService) {}
+  constructor(private caseService: CaseService, private router: Router) {}
 
 
   ngOnInit() {
@@ -127,7 +129,8 @@ export class CaseMakerComponent implements OnInit{
       expectedDeliveryDate: this.caseData.expectedDeliveryDate ? new Date(this.caseData.expectedDeliveryDate).toISOString() : '',
       priority: this.caseData.priority!,
       assignedTechnician: this.caseData.assignedTechnician!,
-      status: this.caseData.status!
+      status: this.caseData.status!,
+      mail: this.caseData.mail!
     };
 
     console.log('New case data:', newCase); //logger data (brugt til debug)
@@ -142,6 +145,7 @@ export class CaseMakerComponent implements OnInit{
         console.error('Fejl ved oprettelse af sag', err); //fejlhåndtering
       }
     });
+    this.goBack();
   }
 
   // Reset form data efter oprettelse
@@ -157,5 +161,9 @@ export class CaseMakerComponent implements OnInit{
       status: 'Modtaget'
     };
     this.currentStatusIndex = 0;
+  }
+
+  goBack() {
+    this.router.navigate(['/caseslist']);
   }
 }

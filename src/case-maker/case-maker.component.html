@@ -1,10 +1,18 @@
 <div class="container">
+
   <h1>Opret Ny Sag</h1>
+  <button class="back-button" (click)="goBack()">Tilbage</button>
   <form>
     <!-- Kundeoplysninger -->
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Kundeoplysninger</mat-label>
-      <input matInput placeholder="Indtast kundens navn og kontaktinfo" [(ngModel)]="caseData.customerName" name="customerName" />
+      <mat-label>Navn</mat-label>
+      <input matInput placeholder="Indtast kundens navn" [(ngModel)]="caseData.customerName" name="customerName" />
+    </mat-form-field>
+
+    <!-- Kundeoplysninger -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Mail</mat-label>
+      <input matInput placeholder="Indtast kundens mail" [(ngModel)]="caseData.mail" name="mail" />
     </mat-form-field>
 
     <!-- Udstyrstype -->

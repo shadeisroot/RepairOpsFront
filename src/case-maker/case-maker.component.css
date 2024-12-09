@@ -48,3 +48,22 @@
   color: black;
   margin-bottom: 10px; /* Giver lidt plads mellem status og bar */
 }
+
+.back-button {
+  position: absolute; /* Gør det muligt at placere knappen frit */
+  top: 20px; /* Placer knappen lidt under toppen af skærmen */
+  right: 20px; /* Placer knappen 20px fra højre side */
+  padding: 10px 20px; /* Gør knappen større */
+  background-color: #4c6ef5; /* Blå baggrundsfarve */
+  color: white; /* Hvid tekstfarve */
+  border: none; /* Fjern kant */
+  border-radius: 8px; /* Bløde kanter */
+  font-size: 16px; /* Større tekst */
+  cursor: pointer; /* Skift cursor til en hånd */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Tilføj en let skygge */
+  transition: background-color 0.3s ease; /* Glidende effekt ved hover */
+}
+
+.back-button:hover {
+  background-color: #364fc7; /* Mørkere blå farve ved hover */
+}
