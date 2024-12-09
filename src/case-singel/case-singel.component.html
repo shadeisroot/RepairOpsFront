@@ -25,9 +25,17 @@
       <!-- Chat med teknikker -->
       <div class="case-chat">
         <h2>CHAT MED TEKNIKKER</h2>
-        <div class="chat-messages">
-          <div *ngFor="let message of chatMessages" class="chat-message">
-            <strong>{{ message.sender }}:</strong> {{ message.message }}
+        <div class="chat-messages" #chatContainer>
+          <div
+            *ngFor="let message of chatMessages"
+            class="chat-message"
+            [ngClass]="{ 'from-customer': message.sender === 'Kunde', 'from-technician': message.sender !== 'Kunde' }"
+          >
+            <span class="sender-name">{{ message.sender }} : </span>
+            <div class="message-content">
+              <p>{{ message.message }}</p>
+              <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
+            </div>
           </div>
         </div>
         <div class="chat-input">
