@@ -51,6 +51,15 @@
             (keydown.enter)="sendMessage(caseItem.id)" />
           <button (click)="sendMessage(caseItem.id)">Send</button>
         </div>
+        <div class="status-history" *ngIf="selectedCaseId === caseItem.id && statusHistory.length > 0">
+          <h4>Statushistorik</h4>
+          <ul>
+            <li *ngFor="let history of statusHistory">
+              <strong>{{ history.oldStatus }}</strong> til <strong>{{ history.newStatus }}</strong>
+              <span>({{ history.changedAt | date: 'dd-MM-yyyy HH:mm:ss' }})</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

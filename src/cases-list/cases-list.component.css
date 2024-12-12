@@ -231,3 +231,35 @@
 .create-case-button:hover {
   background-color: #364fc7; /* Mørkere blå farve ved hover */
 }
+
+.status-history {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.status-history h4 {
+  margin-bottom: 10px;
+}
+
+.status-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-history li {
+  padding: 5px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.status-history li:last-child {
+  border-bottom: none;
+}
+
+.status-history span {
+  color: #6c757d;
+  font-size: 0.9em;
+}
