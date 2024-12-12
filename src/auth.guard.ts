@@ -1,7 +1,6 @@
 import {CanActivate, CanActivateFn, Router} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {LoginService} from './Services/login.service';
-import {AuthService} from './Services/auth.service';
 
 
 @Injectable({
