@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {Chat, ChatService} from '../Services/chat.service';
 import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
 import {Router} from '@angular/router';
+import {Notes, NotesService} from '../Services/notes.service';
 
 @Component({
   selector: 'app-cases-list',
@@ -20,7 +21,9 @@ export class CasesListComponent implements OnInit, OnDestroy{
   cases: Case[] = [];
   selectedCaseId: string | null = null;
   chatMessages: Chat[] = [];
+  notes: Notes[] = [];
   newMessage: string = '';
+  newNote: string = '';
   statusOptions: string[] = [
     'Modtaget',
     'Under reparation',
@@ -31,7 +34,7 @@ export class CasesListComponent implements OnInit, OnDestroy{
   private chatRefreshInterval: any;
 
 
-  constructor(private caseService: CaseService, private chatService: ChatService, private router: Router) {}
+  constructor(private caseService: CaseService, private chatService: ChatService, private router: Router , private notesservice: NotesService) {}
 
   ngOnInit(): void {
     this.loadCases();
@@ -124,6 +127,39 @@ export class CasesListComponent implements OnInit, OnDestroy{
     });
   }
 
+
+  loadNotes(caseId: string): void {
+    this.notesservice.getnotes(caseId).subscribe({
+      next: (messages) => {
+        // Sorter beskeder efter tid (ældste først)
+        this.notes = messages.sort((a, b) =>
+          new Date(a.CreatedAt).getTime() - new Date(b.CreatedAt).getTime()
+        );
+      },
+      error: (err) => console.error('Fejl ved hentning af chatbeskeder:', err),
+    });
+  }
+
+
+  sendnotes(caseId: string): void {
+    if (!this.newNote.trim()) return;
+
+    const newnotes: Notes = {
+      id: this.generateGuid(),
+      caseId,
+      message: this.newNote.trim(),
+      CreatedAt: new Date().toISOString(),
+    };
+
+    this.notesservice.sendnotes(newnotes).subscribe({
+      next: (sentMessage) => {
+        this.notes.push(sentMessage); // Tilføj beskeden lokalt
+        this.newMessage = ''; // Ryd inputfeltet
+      },
+      error: (err) => console.error('Fejl ved afsendelse af besked:', err),
+    });
+  }
+
   // Send en besked
   sendMessage(caseId: string): void {
     if (!this.newMessage.trim()) return;
@@ -170,5 +206,23 @@ export class CasesListComponent implements OnInit, OnDestroy{
 
   goMake() {
     this.router.navigate(['/case']);
+  }
+
+  showNotes(caseId: string) {
+    if (this.selectedCaseId === caseId) {
+      // Hvis chatvinduet allerede vises, luk det
+      this.selectedCaseId = null;
+      this.clearChatRefreshInterval();
+    } else {
+      // Vis chat for en ny sag
+      this.selectedCaseId = caseId;
+      this.clearChatRefreshInterval(); // Sørg for, at tidligere intervaller stoppes
+      this.loadNotes(caseId);
+
+      // Start interval til at opdatere chatbeskeder
+      this.chatRefreshInterval = setInterval(() => {
+        this.loadNotes(caseId);
+      }, 1500); // Opdater hvert 1.5 sekund
+    }
   }
 }

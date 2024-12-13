@@ -31,6 +31,7 @@
         <button *ngIf="caseItem.isEditing" (click)="cancelEdit(caseItem)">Annuller</button>
         <button class="afslut-knap" (click)="deleteCase(caseItem.id)">Afslut Sag</button>
         <button class="chat-button" (click)="viewChat(caseItem.id)">Vis Chat</button>
+        <button class="notes-button" (click)="showNotes(caseItem.id)">Vis Noter</button>
       </div>
       <!-- Chat-vindue til højre -->
       <div class="chat-popup" *ngIf="selectedCaseId === caseItem.id">
@@ -50,6 +51,25 @@
             placeholder="Skriv en besked..."
             (keydown.enter)="sendMessage(caseItem.id)" />
           <button (click)="sendMessage(caseItem.id)">Send</button>
+        </div>
+      </div>
+
+      <!-- Noter-vindue til højre -->
+      <div class="notes-popup" *ngIf="selectedCaseId === caseItem.id">
+        <h4>Noter for Sag: {{ caseItem.id }}</h4>
+        <div class="notes-messages">
+          <div *ngFor="let note of notes" class="note-message">
+            <p>{{ note.message }}</p>
+            <span class="timestamp">{{ note.CreatedAt | date: 'shortTime' }}</span>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            [(ngModel)]="newMessage"
+            placeholder="Skriv en besked..."
+            (keydown.enter)="sendnotes(caseItem.id)" />
+          <button (click)="sendnotes(caseItem.id)">Send</button>
         </div>
       </div>
     </div>
