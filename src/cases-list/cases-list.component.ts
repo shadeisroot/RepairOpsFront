@@ -30,10 +30,13 @@ export class CasesListComponent implements OnInit, OnDestroy{
     'Repareret og klar til afhentning'
   ];
 
+  statusHistory: { oldStatus: string; newStatus: string; changedAt: string }[] = [];
   private chatRefreshInterval: any;
 
 
+
   constructor(private caseService: CaseService, private chatService: ChatService, private router: Router, private dialog: MatDialog) {}
+
 
   ngOnInit(): void {
     this.loadCases();
@@ -101,11 +104,13 @@ export class CasesListComponent implements OnInit, OnDestroy{
       // Hvis chatvinduet allerede vises, luk det
       this.selectedCaseId = null;
       this.clearChatRefreshInterval();
+      this.statusHistory = [];
     } else {
       // Vis chat for en ny sag
       this.selectedCaseId = caseId;
       this.clearChatRefreshInterval(); // Sørg for, at tidligere intervaller stoppes
       this.loadChatMessages(caseId);
+      this.loadStatusHistory(caseId);
 
       // Start interval til at opdatere chatbeskeder
       this.chatRefreshInterval = setInterval(() => {
@@ -171,6 +176,16 @@ export class CasesListComponent implements OnInit, OnDestroy{
       });
     }
   }
+
+  loadStatusHistory(caseId: string): void {
+    this.caseService.getStatusHistory(caseId).subscribe({
+      next: (history) => {
+        this.statusHistory = history.sort((a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime());
+      },
+      error: (err) => console.error('Fejl ved hentning af status historik:', err),
+    });
+  }
+
 
   goMake() {
     this.router.navigate(['/case']);

@@ -63,4 +63,8 @@ export class CaseService {
     return this.http.get<User[]>(this.baseUrl);
   }
 
+  getStatusHistory(caseId: string): Observable<{ oldStatus: string; newStatus: string; changedAt: string }[]> {
+    return this.http.get<{ oldStatus: string; newStatus: string; changedAt: string }[]>(`${this.apiUrl}/${caseId}/status-history`);
+  }
+
 }
