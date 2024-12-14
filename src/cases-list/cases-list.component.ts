@@ -5,7 +5,9 @@ import {FormsModule} from '@angular/forms';
 import {Chat, ChatService} from '../Services/chat.service';
 import {sendMessage} from '@microsoft/signalr/dist/esm/Utils';
 import {Router} from '@angular/router';
-
+import {Notes, NotesService} from '../Services/notes.service';
+import {MatDialog} from '@angular/material/dialog';
+import {NotesComponent} from './notes/notes.component';
 @Component({
   selector: 'app-cases-list',
   standalone: true,
@@ -32,9 +34,9 @@ export class CasesListComponent implements OnInit, OnDestroy{
   private chatRefreshInterval: any;
 
 
-  constructor(private caseService: CaseService,
-              private chatService: ChatService,
-              private router: Router) {}
+
+  constructor(private caseService: CaseService, private chatService: ChatService, private router: Router, private dialog: MatDialog) {}
+
 
   ngOnInit(): void {
     this.loadCases();
@@ -129,6 +131,8 @@ export class CasesListComponent implements OnInit, OnDestroy{
     });
   }
 
+
+
   // Send en besked
   sendMessage(caseId: string): void {
     if (!this.newMessage.trim()) return;
@@ -185,5 +189,13 @@ export class CasesListComponent implements OnInit, OnDestroy{
 
   goMake() {
     this.router.navigate(['/case']);
+  }
+
+  viewNotes(caseId: string) {
+    //this.router.navigate(['/notes', caseId]);
+    this.dialog.open(NotesComponent, {
+      width: '500px',
+      data: { caseId }
+    })
   }
 }

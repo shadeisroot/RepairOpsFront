@@ -31,6 +31,7 @@
         <button *ngIf="caseItem.isEditing" (click)="cancelEdit(caseItem)">Annuller</button>
         <button class="afslut-knap" (click)="deleteCase(caseItem.id)">Afslut Sag</button>
         <button class="chat-button" (click)="viewChat(caseItem.id)">Vis Chat</button>
+        <button class="notes-button" (click)="viewNotes(caseItem.id)">Vis Noter</button>
       </div>
       <!-- Chat-vindue til højre -->
       <div class="chat-popup" *ngIf="selectedCaseId === caseItem.id">

@@ -1,0 +1,17 @@
+<h2 class="case-notes-title">Notes for Case: {{ caseId }}</h2>
+
+<div *ngFor="let note of notes" class="note-item">
+  <p class="note-message">{{ note.message }}</p>
+  <small class="note-timestamp">{{ note.CreatedAt | date: 'short' }}</small>
+</div>
+
+<div class="add-note-container">
+  <textarea
+    [(ngModel)]="newNoteMessage"
+    placeholder="Write a new note..."
+    class="note-textarea">
+  </textarea>
+  <button mat-raised-button color="primary" (click)="addNote()">Add Note</button>
+</div>
+
+<button mat-stroked-button color="warn" (click)="close()">Close</button>
