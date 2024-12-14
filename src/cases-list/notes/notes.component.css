@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.case-notes-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.note-item {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.note-message {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.note-timestamp {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+.add-note-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.note-textarea {
+  flex: 1;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+button {
+  font-size: 1rem;
+  margin-top: 8px;
+}
