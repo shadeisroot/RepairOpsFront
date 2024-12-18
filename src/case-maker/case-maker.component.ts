@@ -140,12 +140,13 @@ export class CaseMakerComponent implements OnInit{
         console.log('Ny sag oprettet', data); //logger succes
         this.loadCases(); //genindlaeser listen over cases
         this.resetForm(); //nulstiller formularen
+        this.router.navigate(['/caseslist']); //route tilbage til listen over cases
       },
       error: (err) => {
         console.error('Fejl ved oprettelse af sag', err); //fejlhåndtering
       }
     });
-    this.goBack();
+
   }
 
   // Reset form data efter oprettelse
